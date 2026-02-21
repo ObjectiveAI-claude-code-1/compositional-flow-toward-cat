@@ -1,0 +1,184 @@
+{
+  "type": "scalar.function",
+  "input_schema": {
+    "type": "object",
+    "description": "A photograph containing a cat whose compositional flow will be evaluated — assessing whether the image's lines, light, and spatial arrangement converge on the cat subject.",
+    "properties": {
+      "photograph": {
+        "type": "image",
+        "description": "A photograph containing a cat. The image may be of any style, setting, or quality. The function reads it not as a story about a cat but as a map of visual forces — lines, edges, light gradients, contrast zones, and spatial arrangements — and evaluates whether those forces converge on the cat with a feeling of compositional inevitability."
+      }
+    },
+    "required": [
+      "photograph"
+    ]
+  },
+  "tasks": [
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "$jmespath": "input.photograph"
+            },
+            {
+              "type": "text",
+              "text": "Look at the lines, edges, and geometric structures in this photograph — floorboards, shelves, railings, architectural edges, shadows, surface boundaries. There is a cat in this image. Where do the lines lead the viewer's eye in relation to the cat?"
+            }
+          ]
+        }
+      ],
+      "responses": [
+        [
+          {
+            "type": "text",
+            "text": "The lines converge directly on the cat. The geometry of the scene creates clear paths that terminate at the subject — edges, surfaces, and structural lines all angle inward toward the cat, as if the environment itself is pointing at it."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Some lines lead toward the cat, but others are neutral or point elsewhere. The geometry partially supports the subject without fully committing — a few edges approach the cat, but the overall linear structure doesn't form a coherent system converging on it."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The lines don't particularly engage with the cat. They run through the frame without forming any directional relationship to the subject — the geometric structure of the image exists independently of where the cat is positioned."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The dominant lines lead away from the cat, pulling the eye toward other areas of the frame. The geometry actively works against the subject, drawing attention along paths that bypass or diverge from the cat entirely."
+          }
+        ]
+      ],
+      "output": {
+        "$starlark": "output[\"scores\"][0] * 1.0 + output[\"scores\"][1] * 0.67 + output[\"scores\"][2] * 0.33"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "You are a photography composition analyst. You specialize in evaluating how light, brightness, and contrast direct the viewer's attention within a photograph."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "$jmespath": "input.photograph"
+            },
+            {
+              "type": "text",
+              "text": "This photograph contains a cat. Examine how light, brightness, and contrast are distributed across the image. Does the tonal structure pull the viewer's eye toward the cat, or does it scatter attention elsewhere?"
+            }
+          ]
+        }
+      ],
+      "responses": [
+        [
+          {
+            "type": "text",
+            "text": "The light falls squarely on the cat, contrast peaks at the subject, and the surrounding areas are tonally quiet. The brightness gradient slopes toward the cat, creating a strong tonal gravity well — the eye is pulled to the subject as if by a spotlight."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The cat receives favorable light or contrast, but it isn't dominant. Other areas of the frame carry comparable brightness or tonal weight, so the pull toward the cat is present but not commanding."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Light and contrast are spread fairly evenly across the frame. The cat doesn't receive any preferential tonal treatment — it sits at roughly the same luminance and contrast level as its surroundings, blending into the tonal landscape."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "The tonal structure works against the cat. A bright window, a sunlit patch, or a high-contrast area elsewhere in the frame is more visually magnetic than the cat. The eye is drawn to those competing tonal landmarks first, and the cat is left in their shadow."
+          }
+        ]
+      ],
+      "output": {
+        "$starlark": "output[\"scores\"][0] * 1.0 + output[\"scores\"][1] * 0.67 + output[\"scores\"][2] * 0.33"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "I'm going to show you a photograph that contains a cat. I want you to look at it and tell me: when your eye finishes traveling through the image, where does it come to rest?"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Sure, share the photograph and I'll trace where my eye naturally settles after taking in the full scene."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "$jmespath": "input.photograph"
+            },
+            {
+              "type": "text",
+              "text": "Here it is. Consider all the visual elements — objects, textures, patterns, colors, other subjects. Does the eye's journey through this image resolve at the cat, or does it end up somewhere else?"
+            }
+          ]
+        }
+      ],
+      "responses": [
+        [
+          {
+            "type": "text",
+            "text": "My eye arrives at the cat and stays there. The visual hierarchy is unmistakable — everything else in the frame serves as a stepping stone, and the cat is the clear destination. The composition resolves at the subject with a satisfying sense of arrival."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "My eye mostly settles on the cat, but it occasionally drifts to a competing element before returning. The cat wins the visual hierarchy, though not without some contest — a few other elements pull at attention before the eye commits to the subject."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "My eye bounces between the cat and other elements without clearly settling. The cat shares the stage with competing focal points — bright objects, busy patterns, or other visually striking areas — and no single element emerges as the definitive resting place."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "My eye settles somewhere other than the cat, or it keeps wandering without ever arriving. Competing elements dominate the visual hierarchy — the cat is present in the frame but the composition doesn't guide me toward it. It never becomes the destination."
+          }
+        ]
+      ],
+      "output": {
+        "$starlark": "output[\"scores\"][0] * 1.0 + output[\"scores\"][1] * 0.67 + output[\"scores\"][2] * 0.33"
+      }
+    }
+  ],
+  "description": "Evaluates whether a photograph's visual composition — its lines, light, and spatial arrangement — creates flow that converges on the cat subject. Scores high when geometry, tonal structure, and visual hierarchy align to make the cat the image's inevitable destination; scores low when the eye wanders or is pulled elsewhere."
+}
